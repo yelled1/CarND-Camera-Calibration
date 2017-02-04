@@ -6,8 +6,10 @@ import matplotlib.image as mpimg
 
 # Read in the saved objpoints and imgpoints
 dist_pickle = pickle.load( open( "wide_dist_pickle.p", "rb" ) )
-objpoints = dist_pickle["objpoints"]
-imgpoints = dist_pickle["imgpoints"]
+#objpoints = dist_pickle["objpoints"]
+#imgpoints = dist_pickle["imgpoints"]
+objpoints = dist_pickle["dist"]
+imgpoints = dist_pickle["mtx"]
 
 # Read in an image
 img = cv2.imread('test_image.png')
@@ -18,12 +20,12 @@ img = cv2.imread('test_image.png')
 
 def cal_undistort(img, objpoints, imgpoints, nb_x, nb_y):
     #Finding chessboard corners (for an 8x6 board):
+    gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     ret, corners = cv2.findChessboardCorners(gray, (nb_x, nb_y), None)
     #Drawing detected corners on an image:
     img = cv2.drawChessboardCorners(img, (nb_x, nb_y, corners, ret))
     #Camera calibration:
     #given object points, image points, & the shape of the grayscale image:
-    gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
     # Use cv2.calibrateCamera and cv2.undistort()
     undist = cv2.undistort(img, mtx, dist, None, mtx)
