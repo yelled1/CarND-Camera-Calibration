@@ -1,22 +1,13 @@
-
 # coding: utf-8
-
-# In[1]:
-
-get_ipython().run_cell_magic('HTML', '', '<style> code {background-color : pink !important;} </style>')
-
-
+#get_ipython().run_cell_magic('HTML', '', '<style> code {background-color : pink !important;} </style>')
 # Camera Calibration with OpenCV
-# ===
-# 
 # ### Run the code in the cell below to extract object points and image points for camera calibration.  
-
-# In[1]:
 
 import numpy as np
 import cv2
 import glob
 import matplotlib.pyplot as plt
+import pickle
 #%matplotlib qt
 
 # prepare object points, like (0,0,0), (1,0,0), (2,0,0) ....,(6,5,0)
@@ -55,10 +46,7 @@ cv2.destroyAllWindows()
 
 # ### If the above cell ran sucessfully, you should now have `objpoints` and `imgpoints` needed for camera calibration.  Run the cell below to calibrate, calculate distortion coefficients, and test undistortion on an image!
 
-# In[2]:
-
-import pickle
-get_ipython().magic('matplotlib inline')
+#get_ipython().magic('matplotlib inline')
 
 # Test undistortion on an image
 img = cv2.imread('calibration_wide/test_image.jpg')
@@ -66,7 +54,6 @@ img_size = (img.shape[1], img.shape[0])
 
 # Do camera calibration given object points and image points
 ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, img_size,None,None)
-
 
 dst = cv2.undistort(img, mtx, dist, None, mtx)
 cv2.imwrite('calibration_wide/test_undist.jpg',dst)
@@ -83,9 +70,3 @@ ax1.imshow(img)
 ax1.set_title('Original Image', fontsize=30)
 ax2.imshow(dst)
 ax2.set_title('Undistorted Image', fontsize=30)
-
-
-# In[ ]:
-
-
-
